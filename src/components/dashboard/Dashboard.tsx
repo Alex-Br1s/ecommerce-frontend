@@ -14,7 +14,7 @@ const Dashboard = () => {
   const setMode = useDarkModeStore(state => state.setMode)
 
   return (
-    <section className="flex w-full h-screen dark:bg-[#121212] bg-[#eee;]">
+    <section className="flex w-full h-full dark:bg-[#121212] bg-[#eee;]">
       <DashboardSidebar />
       <div className="flex-1">
       <button className="text-2xl" onClick={setMode}>{isDark ? <MdWbSunny className="text-yellow-500" /> : <BsFillMoonStarsFill className="text-sky-900"/>}</button>

@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import useProductsStore from "../../store/useProductsStore"
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
@@ -6,7 +6,9 @@ import { IoIosSearch } from "react-icons/io";
 import { GrView } from "react-icons/gr";
 
 const DashboardProducts = () => {
-  const {products, getAllProducts, loading, error} = useProductsStore()
+  const {products, getAllProducts, deleteProduct, loading, error} = useProductsStore()
+  const [productDialogDelete, setProductDialogDelete] = useState(false)
+  const [productToDeleteId, setProductToDeleteId] = useState<number | null> (null)
 
   useEffect(() => {
     getAllProducts ()
@@ -16,10 +18,23 @@ const DashboardProducts = () => {
   console.log(loading)
   console.log(error)
 
-  return (
-    <section>
+  const openDeleteProductDialog = (id:number) => {
+    setProductToDeleteId(id)
+    setProductDialogDelete(true)
+  }
+  
+  const confirmDeleteProduct = () => {
+    if (productToDeleteId !== null) {
+      deleteProduct(productToDeleteId)
+      setProductDialogDelete(false)
+      setProductToDeleteId(null)
+    }
+  }
 
-      <aside className="sm:flex flex-wrap grid sm:grid-cols-2 grid-cols-1 gap-y-3 items-center gap-x-3 xss:w-[78%] w-[70%] xs:w-[87%] min-h-20 rounded-md mx-3 xs:mx-auto bg-white dark:bg-[#272727] shadow-md mt-7 py-3 px-3 font-semibold text-gray-700">
+  return (
+    <section className="h-screen">
+
+      <aside className="sm:flex flex-wrap grid sm:grid-cols-2 grid-cols-1 gap-y-3 justify-center items-center gap-x-3 w-[95vw] xs:w-[86%] min-h-24 rounded-md mx-2 xs:mx-auto bg-white dark:bg-[#272727] shadow-md mt-7 py-3 px-3 font-semibold text-gray-700">
         <div className="relative shadow-md rounded-md dark:shadow-[#1a1a1a] dark:shadow-md">
           <div className="absolute top-2 flex items-center pl-2">
             <IoIosSearch className="text-2xl text-gray-400 cursor-pointer" />
@@ -49,23 +64,22 @@ const DashboardProducts = () => {
         </div>
        
         
-          <button className="bg-blue-600 p-2 text-[#eee] rounded-md flex items-center"> 
+        <div className="sm:flex flex-wrap grid sm:grid-cols-2 grid-cols-1">
+          <button className="bg-blue-600 p-2 text-[#eee] rounded-md flex justify-center items-center"> 
           <svg
           className="w-4 h-4 mr-2"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+          xmlns="http://www.w3.org/2000/svg">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-          />
-        </svg>  
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>  
           Agregar producto</button>
-       
+        </div>
       </aside>
 
 {/*       <div className="flex justify-around mt-5">
@@ -73,9 +87,9 @@ const DashboardProducts = () => {
         <button>Agregar producto</button>
       </div> */}
 
-      <section className="xs:flex justify-center xs:mx-auto w-[100%] md:p-6 px-1 mt-6">
-        <div className="xss:w-[80%] xss:ml-2 w-[75%] xs:w-[90%] overflow-x-auto mb-8 rounded-lg shadow-lg dark:shadow-[#444] dark:shadow-md">
-          <div className="overflow-x-auto ">
+      <section className="xs:flex justify-center xs:mx-auto w-[100%] md:p-6 px-1 mt-3">
+        <div className="mx-1 w-[95vw] xs:w-[90%] mb-8 rounded-lg shadow-lg dark:shadow-[#444] dark:shadow-md">
+          <div className="overflow-auto md:max-h-[400px] max-h-[60vh] scrollbar-custom">
           <table className="w-full min-w-[500px]">
             <thead>
               <tr className="text-sm font-semibold tracking-wide text-left dark:text-gray-300 text-gray-700 dark:bg-[#1c1c1c] bg-gray-100 uppercase border-b dark:border-gray-600 border-gray-300">
@@ -113,7 +127,7 @@ const DashboardProducts = () => {
                       <button className="text-green-600 sm:text-inherit sm:hover:text-green-600 transition-all duration-300">
                         <TbEdit />
                       </button>
-                      <button className="text-red-500 sm:text-inherit sm:hover:text-red-500 transition-all duration-300">
+                      <button onClick={() => openDeleteProductDialog(product.id)} className="text-red-500 sm:text-inherit sm:hover:text-red-500 transition-all duration-300">
                         <MdDelete />
                       </button>
                       <button className="text-blue-500 sm:text-inherit sm:hover:text-blue-500 transition-all duration-300">
@@ -128,6 +142,19 @@ const DashboardProducts = () => {
           </div>
         </div>
       </section>
+
+      {productDialogDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white min-h-40 text-gray-600 dark:text-gray-200 dark:bg-[#1f1f1f] p-6 rounded-lg w-full max-w-md">
+            <h3 className="text-xl font-semibold mb-4">Eliminar producto</h3>
+            <div className="flex gap-x-3 justify-end mt-14 text-sm font-medium text-gray-700 dark:text-gray-200">
+              <button onClick={() => setProductDialogDelete(false)} className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-black/40">Cancelar</button>
+              <button onClick={confirmDeleteProduct} className="px-4 py-2 border border-transparent rounded-md bg-blue-600 hover:bg-blue-700">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </section>
   );
 };

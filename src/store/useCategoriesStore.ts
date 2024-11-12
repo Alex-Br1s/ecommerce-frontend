@@ -1,19 +1,23 @@
 import { create } from "zustand";
-import { Category } from "../types";
+import { Category, Product } from "../types";
 
 
 
 interface CategoryState {
     categories: Category[];
+    associatedProducts: Product[] | null
     loading: boolean;
     error: string | null
     getAllCategories: () => Promise<void>
     addCategory: (newCategory: Omit<Category, 'id'>) => Promise<void>
     deleteCategory: (id:number) => Promise<void>
+    getAssociatedProducts: (id:number) => Promise<void>
+    updateCategory: (category: Partial<Category>) =>  Promise<void>
 }
 
 const useCategoryState = create<CategoryState>((set, get) => ({
     categories: [],
+    associatedProducts: [],
     loading: false,
     error: null,
     getAllCategories: async () => {
@@ -35,7 +39,7 @@ const useCategoryState = create<CategoryState>((set, get) => ({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbjAxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMTA5NTc4OSwiZXhwIjoxNzMxMTgyMTg5fQ.QwSrgKf-sPUl8KkUjpdlK_EwXAD_4OtgEWW5VrZNHa8' 
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_ADMIN}`
                 },
                 body: JSON.stringify(newCategory)
             })
@@ -55,10 +59,10 @@ const useCategoryState = create<CategoryState>((set, get) => ({
         set({loading: false, error: null})
         try {
             const deleteCategory = await fetch(`${import.meta.env.VITE_MOBILE_BACKEND_URL}category/delete/${id}`, {
-                method: 'PATCH',
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbjAxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMTA5NTc4OSwiZXhwIjoxNzMxMTgyMTg5fQ.QwSrgKf-sPUl8KkUjpdlK_EwXAD_4OtgEWW5VrZNHa8'
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_ADMIN}`
                 }
             })
             if(!deleteCategory.ok) throw new Error('Network response was not ok')
@@ -66,6 +70,44 @@ const useCategoryState = create<CategoryState>((set, get) => ({
         } catch (error) {
             const errorMessage = (error as Error).message || 'Failed to remove category';
             set({ error: errorMessage, loading: false });
+        }
+    },
+    getAssociatedProducts: async (id: number) => {
+        set({loading: false, error: null})
+        try {
+            const productsAssociated = await fetch (`${import.meta.env.VITE_MOBILE_BACKEND_URL}category/associated/${id}`,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_ADMIN}`
+                }
+            })
+            if (!productsAssociated.ok) throw new Error('Network response was not ok')
+            const products = await productsAssociated.json()
+            set({associatedProducts: products, loading:false, error: null})
+        } catch (error) {
+            const errorMessage = (error as Error).message || 'Failed to remove category';
+            set({ error: errorMessage, loading: false });
+        }
+    },
+    updateCategory: async (category:Partial<Category>) => {
+        console.log(category)
+        set({loading: false, error: null})
+        try {
+            const categoryUpdate = await fetch(`${import.meta.env.VITE_MOBILE_BACKEND_URL}category/edit/${category.id}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_ADMIN}`
+                },
+                body: JSON.stringify(category)
+            })
+            const updatedCategory = await categoryUpdate.json()
+            console.log(updatedCategory)
+            await get().getAllCategories()
+        } catch (error) {
+            const errorMessage = (error as Error).message || 'Failed to remove category';
+            set({error: errorMessage, loading: false})
         }
     }
 }))

@@ -1,0 +1,49 @@
+@media (min-width: 600px) {
+    /* Estilo general de la barra de scroll */
+    .scrollbar-custom::-webkit-scrollbar {
+        width: 8px; /* Ancho de la barra */
+        height: 8px; /* Alto de la barra para el scroll horizontal */
+    }
+      
+    /* Fondo de la barra de scroll */
+    .scrollbar-custom::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Color de fondo */
+        border-radius: 2px;
+    }
+      
+    /* Color y diseño de la barra en sí */
+    .scrollbar-custom::-webkit-scrollbar-thumb {
+        background-color: #373535; /* Color de la barra */
+        border-radius: 2px;
+        border: 1px solid #f1f1f1; /* Bordes para que se vea con espacio */
+    }
+      
+    /* Efecto hover en la barra de scroll */
+    .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+      
+    
+}
+/* 
+{
+		"name": "Kid",
+		"price": 50,
+		"offer": false,
+		"salePrice": null,
+		"stock": 6,
+		"description": "una figura de acción de one piece del personaje Kid",
+		"images": [
+		"https://http2.mlstatic.com/D_NQ_NP_2X_622935-MLA72122107674_102023-F.webp",
+"https://imgs.search.brave.com/bFOmhdcIBKP6YhOkvzuYAb4dqVmbyyDjYTasN1DZeTI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NjFHMVQzUE1qYkwu/anBn"
+		],
+		"categoryId": [1, 29]
+	}
+
+
+    {
+	"categoryName": "one piece",
+	"description": "figuras del anime one piece"
+    }
+
+*/

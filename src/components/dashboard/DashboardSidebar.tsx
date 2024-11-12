@@ -25,11 +25,11 @@ const DashboardSidebar = () => {
     }, [isOpenMenu]) */
 
   return (
-  <div>
+  <div >
     <button onClick={() => setIsOpenMenu(!isOpenMenu)} className="fixed top-2 left-2 z-50 px-[3px] py-[2px] bg-gray-800 dark:bg-[#eee] text-white dark:text-[#555] rounded-md md:hidden">
       {isOpenMenu ? <IoIosClose className="text-2xl" /> : <IoIosMenu className="text-2xl" />}
     </button>
-    <nav className={`bg-white dark:bg-[#1f1f1f] fixed top-0 left-0 h-screen min-w-[230px] transition-transform ${
+    <nav className={`bg-white dark:bg-[#1f1f1f] fixed top-0 left-0 h-full min-w-[230px] transition-transform ${
           isOpenMenu ? "translate-x-0 z-30 shadow-lg dark:shadow-[#555]" : "-translate-x-full"
         } md:translate-x-0 md:relative md:flex md:flex-col justify-start gap-y-7`}>
         <div className="flex flex-col items-center text-center">
