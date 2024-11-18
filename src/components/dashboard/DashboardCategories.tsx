@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react'
 import useCategoryState from '../../store/useCategoriesStore'
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
-import '../../stylesheet/scrollbar.css'
+import '../../stylesheet/generalStyles.css'
 import { Category } from '../../types';
-import '../../stylesheet/scrollbar.css'
 
 function DashboardCategories() {
 
@@ -203,16 +202,16 @@ function DashboardCategories() {
                 className="w-full px-3 py-2 border border-gray-300 dark:bg-inherit rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
               />
             </div>
-            <div className="flex justify-end space-x-2">
+            <div className="flex justify-end space-x-2 text-sm">
               <button
                 onClick={closeUpdateCategoryDialog}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium dark:text-gray-200 text-gray-700 hover:bg-gray-50 dark:hover:bg-black/40"
+                className="px-4 py-2 border border-gray-300 rounded-md font-medium dark:text-gray-200 text-gray-700 hover:bg-gray-50 dark:hover:bg-black/40"
               >
                 Cancelar
               </button>
               <button
                 onClick={categoryUpdate} 
-                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 "
+                className="px-4 py-2 border border-transparent rounded-md font-medium text-white bg-blue-600 hover:bg-blue-700 "
               >
                 Actualizar categoría
               </button>

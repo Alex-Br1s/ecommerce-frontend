@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Product } from "../types";
+import { NewProduct, Product } from "../types";
 
 interface ProductState {
     products: Product[]
@@ -7,6 +7,7 @@ interface ProductState {
     error: string | null
     getAllProducts: () => Promise<void>
     deleteProduct: (id:number) => Promise<void>
+    addProduct: (newProduct: NewProduct) => Promise<void>
 }
 
 
@@ -27,6 +28,31 @@ const useProductsStore = create<ProductState> ((set, get) => ({
             set({ error: errorMessage, loading: false })
         }
     },
+    addProduct: async(newProduct: NewProduct) => {
+        console.log(newProduct)
+        set({loading: true, error: null})
+        try {
+            const response = await fetch(`${import.meta.env.VITE_MOBILE_BACKEND_URL}product/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_ADMIN}`
+                },
+                body: JSON.stringify(newProduct)
+            })
+            console.log(response)
+            if (!response.ok) throw new Error('Network response was not ok')
+            const createdProduct = await response.json()
+            set(state => ({
+                products: [...state.products, createdProduct],
+                loading: false,
+                error: null
+            }))
+        } catch (error) {
+            const errorMessage = (error as Error).message || 'Failed to create product'
+            set({error: errorMessage, loading: false})
+        }
+    },
     deleteProduct: async (id:number) => {
         set({loading: true, error: null})
         try {
@@ -40,7 +66,7 @@ const useProductsStore = create<ProductState> ((set, get) => ({
             if(!response.ok) throw new Error('Network response was not ok')
             await get().getAllProducts()
         } catch (error) {
-            const errorMessage = (error as Error).message || 'Failed to fetch products'
+            const errorMessage = (error as Error).message || 'Failed to delete product'
             set({error: errorMessage, loading: false})
         }
     }

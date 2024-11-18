@@ -29,3 +29,13 @@ export interface Product {
     updatedAt: string
     categories: Category[]
 }
+export interface NewProduct {
+    name: string
+    price: number
+    offer: boolean
+    salePrice?: number | null
+    stock: number
+    description?: string
+    images: string[],
+    categoryId: number[]
+}

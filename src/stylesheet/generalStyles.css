@@ -1,0 +1,61 @@
+@media (min-width: 600px) {
+    /* Estilo general de la barra de scroll */.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-[#222222]; /* Cambia el color de fondo de la barra es decir donde se mueve la barra */
+  border-radius: 2px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  @apply bg-gray-400/50 dark:bg-[#2f2f2f]; /* Cambia el color del thumb */
+  border-radius: 2px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500 dark:bg-[#171717]; /* Cambia el hover del thumb */
+}
+
+    
+}
+
+.custom-line-through::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%; /* Coloca la línea en el centro del texto */
+	height: 2px; /* Ajusta el grosor de la línea */
+	width: 38px;/* Altura de -45 de la linea */
+	background-color: red; /* Cambia el color de la línea */
+	opacity: 60%; /* Opacidad a la linea */
+	transform: rotate(-40deg); /* Rotación de -40° */
+	transform-origin: center; /* Asegura que la rotación sea desde el centro */
+	z-index: 1; /* Asegura que la línea esté encima del texto */
+}
+  
+
+/* 
+{
+		"name": "Kid",
+		"price": 50,
+		"offer": false,
+		"salePrice": null,
+		"stock": 6,
+		"description": "una figura de acción de one piece del personaje Kid",
+		"images": [
+		"https://http2.mlstatic.com/D_NQ_NP_2X_622935-MLA72122107674_102023-F.webp",
+"https://imgs.search.brave.com/bFOmhdcIBKP6YhOkvzuYAb4dqVmbyyDjYTasN1DZeTI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NjFHMVQzUE1qYkwu/anBn"
+		],
+		"categoryId": [1, 29]
+	}
+
+
+    {
+	"categoryName": "one piece",
+	"description": "figuras del anime one piece"
+    }
+
+*/

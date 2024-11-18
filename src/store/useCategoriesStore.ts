@@ -32,7 +32,8 @@ const useCategoryState = create<CategoryState>((set, get) => ({
             set({error: errorMessage, loading: false})
         }
     },
-    addCategory: async (newCategory) => {
+    addCategory: async (newCategory: Omit<Category, 'id'>) => {
+        console.log(newCategory)
         set({loading: true, error: null})
         try {
             const addCategory = await fetch(`${import.meta.env.VITE_MOBILE_BACKEND_URL}category/create`,{
