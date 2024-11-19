@@ -15,11 +15,12 @@ interface CategoryState {
     updateCategory: (category: Partial<Category>) =>  Promise<void>
 }
 
-const useCategoryState = create<CategoryState>((set, get) => ({
+const useCategoryStore = create<CategoryState>((set, get) => ({
     categories: [],
     associatedProducts: [],
     loading: false,
     error: null,
+
     getAllCategories: async () => {
         set({loading: true, error: null});   
         try {
@@ -32,6 +33,7 @@ const useCategoryState = create<CategoryState>((set, get) => ({
             set({error: errorMessage, loading: false})
         }
     },
+
     addCategory: async (newCategory: Omit<Category, 'id'>) => {
         console.log(newCategory)
         set({loading: true, error: null})
@@ -56,6 +58,29 @@ const useCategoryState = create<CategoryState>((set, get) => ({
             set({ error: errorMessage, loading: false });
         }
     },
+
+    updateCategory: async (category:Partial<Category>) => {
+        console.log(category)
+        set({loading: true, error: null})
+        try {
+            const categoryUpdate = await fetch(`${import.meta.env.VITE_MOBILE_BACKEND_URL}category/edit/${category.id}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_ADMIN}`
+                },
+                body: JSON.stringify(category)
+            })
+            if(!categoryUpdate.ok) throw new Error('Network response was not ok')
+            const updatedCategory = await categoryUpdate.json()
+            console.log(updatedCategory)
+            await get().getAllCategories()
+        } catch (error) {
+            const errorMessage = (error as Error).message || 'Failed to remove category';
+            set({error: errorMessage, loading: false})
+        }
+    },
+
     deleteCategory: async (id:number) => {
         set({loading: false, error: null})
         try {
@@ -73,6 +98,7 @@ const useCategoryState = create<CategoryState>((set, get) => ({
             set({ error: errorMessage, loading: false });
         }
     },
+
     getAssociatedProducts: async (id: number) => {
         set({loading: false, error: null})
         try {
@@ -91,27 +117,7 @@ const useCategoryState = create<CategoryState>((set, get) => ({
             set({ error: errorMessage, loading: false });
         }
     },
-    updateCategory: async (category:Partial<Category>) => {
-        console.log(category)
-        set({loading: false, error: null})
-        try {
-            const categoryUpdate = await fetch(`${import.meta.env.VITE_MOBILE_BACKEND_URL}category/edit/${category.id}`,{
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_ADMIN}`
-                },
-                body: JSON.stringify(category)
-            })
-            const updatedCategory = await categoryUpdate.json()
-            console.log(updatedCategory)
-            await get().getAllCategories()
-        } catch (error) {
-            const errorMessage = (error as Error).message || 'Failed to remove category';
-            set({error: errorMessage, loading: false})
-        }
-    }
 }))
 
 
-export default useCategoryState
+export default useCategoryStore

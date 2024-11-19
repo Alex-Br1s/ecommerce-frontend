@@ -25,8 +25,6 @@ export interface Product {
     stock: number
     description?: string
     images: string[]
-    createdAt: string
-    updatedAt: string
     categories: Category[]
 }
 export interface NewProduct {

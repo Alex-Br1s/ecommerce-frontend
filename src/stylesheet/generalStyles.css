@@ -1,5 +1,5 @@
-@media (min-width: 600px) {
-    /* Estilo general de la barra de scroll */.scrollbar-custom::-webkit-scrollbar {
+
+.scrollbar-custom::-webkit-scrollbar { /* Estilo general de la barra de scroll */
   width: 8px;
   height: 8px;
 }
@@ -19,7 +19,6 @@
 }
 
     
-}
 
 .custom-line-through::after {
 	content: '';
@@ -33,7 +32,6 @@
 	opacity: 60%; /* Opacidad a la linea */
 	transform: rotate(-40deg); /* Rotación de -40° */
 	transform-origin: center; /* Asegura que la rotación sea desde el centro */
-	z-index: 1; /* Asegura que la línea esté encima del texto */
 }
   
 

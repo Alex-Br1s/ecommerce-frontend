@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react'
-import useCategoryState from '../../store/useCategoriesStore'
+import useCategoryStore from '../../store/useCategoriesStore'
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
 import '../../stylesheet/generalStyles.css'
 import { Category } from '../../types';
+import AddCategoryModal from '../dialog/modalCategories/AddCategory';
+import UpdateCategory from '../dialog/modalCategories/UpdateCategory';
+import DeleteCategory from '../dialog/modalCategories/DeleteCategory';
+
 
 function DashboardCategories() {
 
-  const {categories, associatedProducts, getAllCategories, getAssociatedProducts, updateCategory, addCategory, deleteCategory, loading, error} = useCategoryState()
+  const {categories, getAllCategories, updateCategory, addCategory, deleteCategory, loading, error} = useCategoryStore()
 
   useEffect(() => {
     getAllCategories()
@@ -16,37 +20,33 @@ function DashboardCategories() {
   console.log(error)
 
   const [categoryDialogAdd, setCategoryDialogAdd] = useState(false)
-  const [categoryDialogDelete, setCategoryDialogDelete] = useState(false)
   const [categoryDialogUpdate, setCategoryDialogUpdate] = useState(false)
+  const [categoryDialogDelete, setCategoryDialogDelete] = useState(false)
   const [categoryToDeleteId, setCategoryToDeleteId] = useState<number | null>(null)
   const [categoryId, setCategoryId] = useState<number>()
   const [categoryName, setCategoryName] = useState('')
   const [categoryDescription, setCategoryDescription] = useState('')
 
-  const addNewCategory = () => {
-    addCategory({categoryName, description: categoryDescription})
+  const handleAddCategory = (name: string, description: string) => {
+    addCategory({categoryName: name,  description})
     setCategoryDialogAdd(false)
-    setCategoryName('')
-    setCategoryDescription('')
   }
 
-  const setInputsUpdate = (category:Category) => {
-    setCategoryDialogUpdate(true)
-    setCategoryId(category.id)
-    setCategoryName(category.categoryName)
-    setCategoryDescription(category.description)
-  }
-
-  const categoryUpdate = () => {
-    updateCategory({
-      id: categoryId,
-      categoryName: categoryName,
-      description: categoryDescription
-    })
-    setCategoryName('')
-    setCategoryDescription('')
-    setCategoryDialogUpdate(false)
-  }
+  const setInputsUpdate = (category: Category) => {
+    setCategoryDialogUpdate(true);
+    setCategoryId(category.id);
+    setCategoryName(category.categoryName);
+    setCategoryDescription(category.description);
+  };
+  
+  const handleCategoryUpdate = () => {
+    if (categoryId) {
+      updateCategory({ id: categoryId, categoryName, description: categoryDescription });
+      setCategoryDialogUpdate(false);
+      setCategoryName('');
+      setCategoryDescription('');
+    }
+  };
 
   const closeUpdateCategoryDialog = () => {
     setCategoryDialogUpdate(false);
@@ -56,12 +56,11 @@ function DashboardCategories() {
 
 
   const openDeleteDialog = (id:number) => {
-    setCategoryToDeleteId(id)
     setCategoryDialogDelete(true)
-    getAssociatedProducts(id)
+    setCategoryToDeleteId(id)//* Agregamos el id de la categoria que queremos eliminar al estado
   }
 
-  const confirmDeleteCategory = () => {
+  const handleDeleteCategory = () => {
     if (categoryToDeleteId !== null) {
       deleteCategory(categoryToDeleteId)
       setCategoryDialogDelete(false)
@@ -94,6 +93,32 @@ function DashboardCategories() {
         </svg>
         Agregar Categoría
       </button>
+       {/* Modal para agregar categorias */}
+       {categoryDialogAdd && (
+        <AddCategoryModal
+          onAddCategory={handleAddCategory}
+          onClose={() => setCategoryDialogAdd(false)}
+        />
+      )}
+      {/* Modal para actualizar categoria */}
+      {categoryDialogUpdate && (
+      <UpdateCategory
+        onClose={closeUpdateCategoryDialog}
+        updateCategory={handleCategoryUpdate}
+        categoryName={categoryName}
+        categoryDescription={categoryDescription}
+        setCategoryName={setCategoryName}
+        setCategoryDescription={setCategoryDescription}
+        />
+      )}
+      {/* Modal para eliminar categoria */}
+      {categoryDialogDelete && (
+        <DeleteCategory 
+          deleteCategory={handleDeleteCategory}
+          onClose={() => setCategoryDialogDelete(false)}
+          categoryId={categoryToDeleteId}
+        />
+      )}
     </div>
      <div className="overflow-x-auto overflow-y-auto md:max-h-[400px] max-h-[70vh] xs:mx-auto ml-1 xs:w-[95%] w-[95vw] bg-white dark:bg-[#272727] shadow-md rounded-lg scrollbar-custom">
         <table className="min-w-full table-auto">
@@ -122,140 +147,6 @@ function DashboardCategories() {
           </tbody>
         </table>
       </div>
-
-
-      {categoryDialogAdd && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white text-gray-600 dark:text-gray-200 dark:bg-[#1f1f1f] p-6 rounded-lg w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">Agregar nueva categoría</h2>
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                Nombre
-              </label>
-              <input
-                type="text"
-                id="name"
-                maxLength={30}
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:bg-inherit rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                Descripción
-              </label>
-              <input
-                type="text"
-                id="description"
-                maxLength={60}
-                value={categoryDescription}
-                onChange={(e) => setCategoryDescription(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:bg-inherit rounded-md shadow-sm  focus:outline-none focus:ring-gray-500 focus:border-gray-500"
-              />
-            </div>
-            <div className="flex justify-end space-x-2">
-              <button
-                onClick={() => setCategoryDialogAdd(false)}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium dark:text-gray-200 text-gray-700 hover:bg-gray-50 dark:hover:bg-black/40 "
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={addNewCategory} 
-                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 "
-              >
-                Agregar categoría
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {categoryDialogUpdate && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white text-gray-600 dark:text-gray-200 dark:bg-[#1f1f1f] p-6 rounded-lg w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">Actualizar categoría</h2>
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                Nombre
-              </label>
-              <input
-                type="text"
-                id="name"
-                maxLength={30}
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:bg-inherit rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                Descripción
-              </label>
-              <input
-                type="text"
-                id="description"
-                maxLength={60}
-                value={categoryDescription}
-                onChange={(e) => setCategoryDescription(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:bg-inherit rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
-              />
-            </div>
-            <div className="flex justify-end space-x-2 text-sm">
-              <button
-                onClick={closeUpdateCategoryDialog}
-                className="px-4 py-2 border border-gray-300 rounded-md font-medium dark:text-gray-200 text-gray-700 hover:bg-gray-50 dark:hover:bg-black/40"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={categoryUpdate} 
-                className="px-4 py-2 border border-transparent rounded-md font-medium text-white bg-blue-600 hover:bg-blue-700 "
-              >
-                Actualizar categoría
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {categoryDialogDelete && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white min-h-36 max-h-[500px] text-gray-600 dark:text-gray-200 dark:bg-[#1f1f1f] p-6 rounded-lg w-full max-w-md scrollbar-custom">
-            <h3 className="text-xl font-bold mb-4">Eliminar categoria</h3>
-              {associatedProducts?.length ? <h1>Productos asociado con la categoria:</h1>: ''}
-            <div className='max-h-[260px] overflow-y-auto scrollbar-custom'>
-              {associatedProducts?.map(product => (
-                <div key={product.id} className='flex items-center my-2'>
-                 <div className="w-12 h-11 mr-3 rounded-full md:block">
-                    <img
-                    className="object-contain w-full h-full rounded-full"
-                    src={product.images[0]}
-                    alt={product.name}
-                    />
-                  </div>
-                  <p>{product.name}</p>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-end gap-x-3 mt-10">
-              <button
-                onClick={() => setCategoryDialogDelete(false)}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium dark:text-gray-200 text-gray-700 hover:bg-gray-50 dark:hover:bg-black/40"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={confirmDeleteCategory} 
-                className="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
-              >
-                {associatedProducts?.length ? 'Eliminar de todas formas' : 'Eliminar'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

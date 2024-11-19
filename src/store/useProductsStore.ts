@@ -6,8 +6,9 @@ interface ProductState {
     loading: boolean
     error: string | null
     getAllProducts: () => Promise<void>
-    deleteProduct: (id:number) => Promise<void>
     addProduct: (newProduct: NewProduct) => Promise<void>
+    updateProduct: (id: number | null, productToUpdate: Partial<NewProduct>) => Promise<void>
+    deleteProduct: (id:number) => Promise<void>
 }
 
 
@@ -53,6 +54,30 @@ const useProductsStore = create<ProductState> ((set, get) => ({
             set({error: errorMessage, loading: false})
         }
     },
+
+    updateProduct: async (id: number | null, productToUpdate: Partial<NewProduct>) => {
+        set({loading: true, error: null})
+        console.log(id)
+        console.log(productToUpdate)
+        try {
+            const response = await fetch(`${import.meta.env.VITE_MOBILE_BACKEND_URL}product/edit/${id}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_ADMIN}`
+                },
+                body: JSON.stringify(productToUpdate)
+            })
+            if(!response.ok) throw new Error('Network response was not ok')
+            const updatedProduct = await response.json()
+            console.log(updatedProduct)
+            await get().getAllProducts()
+        } catch (error) {
+            const errorMessage = (error as Error).message || 'Failed to update product'       
+            set({error: errorMessage, loading: false})
+        }
+    },
+
     deleteProduct: async (id:number) => {
         set({loading: true, error: null})
         try {
