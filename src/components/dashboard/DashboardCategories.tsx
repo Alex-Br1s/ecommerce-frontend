@@ -60,7 +60,7 @@ function DashboardCategories() {
     setCategoryToDeleteId(id)//* Agregamos el id de la categoria que queremos eliminar al estado
   }
 
-  const handleDeleteCategory = () => {
+  const confirmDeleteCategory = () => {
     if (categoryToDeleteId !== null) {
       deleteCategory(categoryToDeleteId)
       setCategoryDialogDelete(false)
@@ -114,7 +114,7 @@ function DashboardCategories() {
       {/* Modal para eliminar categoria */}
       {categoryDialogDelete && (
         <DeleteCategory 
-          deleteCategory={handleDeleteCategory}
+          deleteCategory={confirmDeleteCategory}
           onClose={() => setCategoryDialogDelete(false)}
           categoryId={categoryToDeleteId}
         />
