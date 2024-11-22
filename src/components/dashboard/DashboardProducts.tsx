@@ -8,6 +8,7 @@ import { NewProduct, Product } from "../../types";
 import useCategoryState from "../../store/useCategoriesStore";
 import AddProduct from "../dialog/modalProducts/AddProduct";
 import UpdateProduct from "../dialog/modalProducts/UpdateProduct";
+import DetailProduct from "../dialog/modalProducts/DetailProduct";
 import DeleteProduct from "../dialog/modalProducts/DeleteProduct";
 
 const DashboardProducts = () => {
@@ -21,10 +22,11 @@ const DashboardProducts = () => {
     salePrice: null,
     categoryId: []
   }
-  const {products, getAllProducts, addProduct, updateProduct, deleteProduct} = useProductsStore()
+  const {products, getAllProducts, selectedProduct, addProduct, updateProduct, deleteProduct, getOneProduct, clearSelectedProduct} = useProductsStore()
   const {categories, getAllCategories} = useCategoryState()
   const [productDialogAdd, setProductDialogAdd] = useState(false)
-  const [productDialogEdit, setProductDialogEdit] = useState(false);
+  const [productDialogEdit, setProductDialogEdit] = useState(false)
+  const [productDialogDetail, setProductDialogDetail] = useState(false);
   const [productDialogDelete, setProductDialogDelete] = useState(false)
   const [productToUpdateId, setProductToUpdateId] = useState<number | null>(null)
   const [productToDeleteId, setProductToDeleteId] = useState<number | null>(null)
@@ -142,12 +144,21 @@ const DashboardProducts = () => {
     setProductDialogEdit(false)
   }
 
+  const openDetailDialog = (id: number) => {
+    setProductDialogDetail(true)
+    getOneProduct(id)
+  }
 
+  const closeDetailDialog = () => {
+    setProductDialogDetail(false)
+    clearSelectedProduct()
+  }
+  
   const openDeleteDialog = (id:number) => {
     setProductToDeleteId(id)
     setProductDialogDelete(true)
   }
-  
+
   const confirmDeleteProduct = () => {
     if (productToDeleteId !== null) {
       deleteProduct(productToDeleteId)
@@ -242,6 +253,13 @@ const DashboardProducts = () => {
         />
       )}
 
+      {productDialogDetail && (
+        <DetailProduct 
+        onClose={closeDetailDialog}
+        product={selectedProduct || null}
+        />
+      )}
+
       {productDialogDelete && (
         <DeleteProduct 
         onClose={() => setProductDialogDelete(false)}
@@ -303,7 +321,7 @@ const DashboardProducts = () => {
                         <MdDelete />
                       </button>
                       <button className="text-blue-500 sm:text-inherit sm:hover:text-blue-500 transition-all duration-300">
-                        <GrView />
+                        <GrView onClick={() => openDetailDialog(product.id)} />
                       </button>
                     </div>
                   </td>

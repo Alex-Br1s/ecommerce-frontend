@@ -3,17 +3,21 @@ import { NewProduct, Product } from "../types";
 
 interface ProductState {
     products: Product[]
+    selectedProduct: Product | null
     loading: boolean
     error: string | null
     getAllProducts: () => Promise<void>
     addProduct: (newProduct: NewProduct) => Promise<void>
     updateProduct: (id: number | null, productToUpdate: Partial<NewProduct>) => Promise<void>
     deleteProduct: (id:number) => Promise<void>
+    getOneProduct: (id: number) => Promise<void>
+    clearSelectedProduct: () => void
 }
 
 
 const useProductsStore = create<ProductState> ((set, get) => ({
     products: [],
+    selectedProduct: null,
     loading: false,
     error: null,
 
@@ -94,7 +98,20 @@ const useProductsStore = create<ProductState> ((set, get) => ({
             const errorMessage = (error as Error).message || 'Failed to delete product'
             set({error: errorMessage, loading: false})
         }
-    }
+    },
+    getOneProduct: async (id:number) => {
+        set({loading: true, error: null})
+        try {
+            const response = await fetch (`${import.meta.env.VITE_MOBILE_BACKEND_URL}product/${id}`)
+            if(!response.ok) throw new Error('Network response was not ok')
+            const product = await response.json()
+            set({selectedProduct: product, loading: false, error: null})
+        } catch (error) {
+            const errorMessage = (error as Error).message
+            set({error: errorMessage, loading: false})
+        }
+    },
+    clearSelectedProduct: () => set({selectedProduct: null})
 }))
 
 export default useProductsStore

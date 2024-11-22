@@ -16,7 +16,7 @@ interface AddProductInterface {
 const AddProduct = ({handleChange, handleCategoryChange, productData, categories, openCloudinaryWidget, removeImage, onClose, createProduct}: AddProductInterface) => {
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-    <div className="bg-[#ddd] overflow-y-auto text-gray-700 dark:text-gray-300 dark:bg-[#1f1f1f] rounded-md min-h-52 xs:max-h-[590px] max-h-[690px] w-full max-w-xl p-4 scrollbar-custom">
+    <div className="bg-[#ddd] dark:bg-[#1f1f1f] overflow-y-auto text-gray-700 dark:text-gray-300 rounded-md min-h-52 xs:max-h-[590px] max-h-[690px] w-full max-w-xl p-4 scrollbar-custom">
     <div className="h-full">
     <h2 className="mb-3 text-xl font-semibold">Crear producto</h2>
     <div className="flex flex-col gap-y-3">
