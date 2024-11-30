@@ -4,7 +4,8 @@ import { NewProduct, Product } from "../types";
 interface ProductState {
     products: Product[]
     selectedProduct: Product | null
-    loading: boolean
+    searchedProduct: Product[],
+    loading: boolean,
     error: string | null
     getAllProducts: () => Promise<void>
     addProduct: (newProduct: NewProduct) => Promise<void>
@@ -12,12 +13,14 @@ interface ProductState {
     deleteProduct: (id:number) => Promise<void>
     getOneProduct: (id: number) => Promise<void>
     clearSelectedProduct: () => void
+    searchProduct: (name: string) => Promise<void>
 }
 
 
 const useProductsStore = create<ProductState> ((set, get) => ({
     products: [],
     selectedProduct: null,
+    searchedProduct: [],
     loading: false,
     error: null,
 
@@ -67,7 +70,7 @@ const useProductsStore = create<ProductState> ((set, get) => ({
             const response = await fetch(`${import.meta.env.VITE_MOBILE_BACKEND_URL}product/edit/${id}`,{
                 method: 'PUT',
                 headers: {
-                    'Content-type': 'application/json',
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_ADMIN}`
                 },
                 body: JSON.stringify(productToUpdate)
@@ -111,7 +114,20 @@ const useProductsStore = create<ProductState> ((set, get) => ({
             set({error: errorMessage, loading: false})
         }
     },
-    clearSelectedProduct: () => set({selectedProduct: null})
+    clearSelectedProduct: () => set({selectedProduct: null}),
+
+    searchProduct: async (name: string) => {
+        set({loading: true, error: null})
+        try {
+            const response = await fetch(`${import.meta.env.VITE_MOBILE_BACKEND_URL}product?name=${name}`)
+            if (!response.ok) throw new Error ('Network response was not ok')
+            const searchedProduct = await response.json()
+            set({searchedProduct, loading: false, error: null})
+        } catch (error) {
+            const errorMessage = (error as Error).message
+            set({error: errorMessage, loading: false})
+        }
+    }
 }))
 
 export default useProductsStore

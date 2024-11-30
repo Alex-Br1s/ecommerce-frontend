@@ -15,7 +15,7 @@ interface UpdateProductInterface {
 const UpdateProduct = ({handleChange, handleCategoryChange, productData, categories, openCloudinaryWidget, removeImage, onClose, updateProduct}:UpdateProductInterface ) => {
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-        <div className="bg-[#ddd] overflow-y-auto text-gray-700 dark:text-gray-300 dark:bg-[#1f1f1f] rounded-md min-h-52 xs:max-h-[590px] max-h-[690px] w-full max-w-xl p-4 scrollbar-custom">
+        <div className="bg-[#ddd] overflow-y-auto text-gray-700 dark:text-gray-300 dark:bg-[#1f1f1f] rounded-md min-h-52 xs:max-h-[590px] max-h-[670px] w-full max-w-xl p-4 scrollbar-custom">
          <div className="h-full">
             <h2 className="mb-3 text-xl font-semibold">Crear producto</h2>
            <div className="flex flex-col gap-y-3">
@@ -40,7 +40,7 @@ const UpdateProduct = ({handleChange, handleCategoryChange, productData, categor
               )
             }
             <label className="text-sm font-medium" htmlFor="description">Descripción</label>
-            <textarea onChange={handleChange} value={productData.description} max-rows={1} className="h-9 max-h-16 px-2 pt-1 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400" id="description" placeholder="Descripción de producto" />
+            <textarea onChange={handleChange} value={productData.description} max-rows={1} className="h-11 max-h-16 px-2 pt-1 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400" id="description" placeholder="Descripción de producto" />
          
             <label className="text-sm font-medium" htmlFor="stock">Stock</label>
             <input onChange={handleChange} value={productData.stock} className="h-9 px-2 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400" min={1} type="number" id="stock" placeholder="1"/>

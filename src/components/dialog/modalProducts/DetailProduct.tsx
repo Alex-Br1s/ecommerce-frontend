@@ -8,8 +8,8 @@ interface DetailProductInterface {
 const DetailProduct = ({onClose, product}: DetailProductInterface) => {
   return (
     <section className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-[#ddd] dark:bg-[#1f1f1f] text-gray-700 dark:text-gray-300 w-2/4 h-[570px] p-6 rounded-md overflow-y-auto scrollbar-custom">
-      <h1 className="text-2xl mb-2 font-semibold">Detalles del producto</h1>
+      <div className="bg-[#ddd] dark:bg-[#1f1f1f] text-gray-700 dark:text-gray-300 xs:max-h-[590px] max-h-[670px] w-full max-w-xl p-6 rounded-md overflow-y-auto scrollbar-custom">
+      <h1 className="text-2xl mb-5 font-semibold">Detalles del producto</h1>
       <div className="flex flex-col gap-y-3">
           <div>
             <h2 className="text-xl font-medium">Nombre del producto</h2>
@@ -42,8 +42,8 @@ const DetailProduct = ({onClose, product}: DetailProductInterface) => {
         <h5 className="text-lg font-medium">Categorias</h5>
         <div className="flex gap-x-1 flex-wrap">
           {product?.categories.map(category => (
-            <div>
-              <span className="bg-[#bbb] px-2 rounded-xl">{category.categoryName}</span>
+            <div key={category.id}>
+              <span className="bg-[#bbb] dark:bg-[#2f2f2f] px-2 rounded-xl">{category.categoryName}</span>
             </div>
           ))}   
         </div>
@@ -52,7 +52,7 @@ const DetailProduct = ({onClose, product}: DetailProductInterface) => {
           {
             product?.images.map(image => (
               <div>
-                <img className='w-28 h-28' src={image} alt="" />
+                <img className='w-32 h-32 rounded-md' src={image} alt="" />
               </div>
             ))
           }

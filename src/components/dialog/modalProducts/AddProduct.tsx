@@ -16,7 +16,7 @@ interface AddProductInterface {
 const AddProduct = ({handleChange, handleCategoryChange, productData, categories, openCloudinaryWidget, removeImage, onClose, createProduct}: AddProductInterface) => {
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-    <div className="bg-[#ddd] dark:bg-[#1f1f1f] overflow-y-auto text-gray-700 dark:text-gray-300 rounded-md min-h-52 xs:max-h-[590px] max-h-[690px] w-full max-w-xl p-4 scrollbar-custom">
+    <div className="bg-[#ddd] dark:bg-[#1f1f1f] overflow-y-auto text-gray-700 dark:text-gray-300 rounded-md min-h-52 xs:max-h-[590px] max-h-[670px] w-full max-w-xl p-4 scrollbar-custom">
     <div className="h-full">
     <h2 className="mb-3 text-xl font-semibold">Crear producto</h2>
     <div className="flex flex-col gap-y-3">
@@ -41,7 +41,7 @@ const AddProduct = ({handleChange, handleCategoryChange, productData, categories
         )
       }
       <label className="text-sm font-medium" htmlFor="description">Descripción</label>
-      <textarea onChange={handleChange} max-rows={1} className="h-9 max-h-16 px-2 pt-1 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400" id="description" placeholder="Descripción de producto" />
+      <textarea onChange={handleChange} max-rows={1} className="h-11 max-h-16 px-2 pt-1 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400" id="description" placeholder="Descripción de producto" />
    
       <label className="text-sm font-medium" htmlFor="stock">Stock</label>
       <input onChange={handleChange} className="h-9 px-2 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400" min={1} type="number" id="stock" placeholder="1"/>
@@ -58,7 +58,7 @@ const AddProduct = ({handleChange, handleCategoryChange, productData, categories
          onChange={handleCategoryChange}
          /* value={selectedCategories}
          onChange={handleCategoryChange} */
-         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none bg-[#ddd] focus:ring-gray-500 focus:border-gray-500 dark:bg-[#1f1f1f] dark:border-gray-600 dark:text-white scrollbar-custom"
+         className="w-full px-3 py-2 max-h-40 overflow-y-auto border border-gray-300 rounded-md shadow-sm focus:outline-none bg-[#ddd] focus:ring-gray-500 focus:border-gray-500 dark:bg-[#1f1f1f] dark:border-gray-600 dark:text-white scrollbar-custom"
        >
          {categories.map((category) => (
            <option key={category.id} value={category.id} className="font-medium dark:text-gray-200 checked:bg-[#ccc] dark:checked:bg-[#444] checked:rounded-md p-0.5 my-0.5">
