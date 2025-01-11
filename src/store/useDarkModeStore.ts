@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { updateBodyClass } from "../utils/changeMode";
 
 interface Mode {
     isDark: boolean;
@@ -8,9 +9,8 @@ interface Mode {
 const useDarkModeStore = create<Mode>((set) => {
     //? Se inicializa isDark desde localStorage y se aplica la clase dark
     const isDark = JSON.parse(localStorage.getItem('isDark') || 'false');
+    updateBodyClass(isDark)
 
-    //? Aplica la clase dark al cargar la pagina guardando asi el estado de isDark haciendo que la pagina se recarge con light o dark.
-    if (isDark) document.body.classList.add('dark');
 
     return {
         isDark,
@@ -20,10 +20,7 @@ const useDarkModeStore = create<Mode>((set) => {
             //* Y lo cambiamos en el local storage
             localStorage.setItem('isDark', JSON.stringify(newMode));
 
-            //* Si isDark es true entonces agregamos la clase dark al body
-            if (newMode) document.body.classList.add('dark');
-            //* Y sino lo quitamos
-            else document.body.classList.remove('dark');
+            updateBodyClass(newMode)
 
             //? Y actualizamo el valor isDark
             return { isDark: newMode };

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import useDarkModeStore from "../store/useDarkModeStore";
+import { updateBodyClass } from "../utils/changeMode";
 
 
 const useDarkMode = () => {
@@ -7,8 +8,7 @@ const useDarkMode = () => {
   const { isDark } = useDarkModeStore()
 
   useEffect(() => {
-    if (isDark) document.body.classList.add('dark');
-    else document.body.classList.remove('dark');
+    updateBodyClass(isDark)
   }, [isDark])
 
   return isDark

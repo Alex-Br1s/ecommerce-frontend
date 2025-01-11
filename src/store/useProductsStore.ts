@@ -5,6 +5,7 @@ interface ProductState {
     products: Product[]
     selectedProduct: Product | null
     searchedProduct: Product[],
+    filteredProducts: Product[]
     loading: boolean,
     error: string | null
     getAllProducts: () => Promise<void>
@@ -14,6 +15,7 @@ interface ProductState {
     getOneProduct: (id: number) => Promise<void>
     clearSelectedProduct: () => void
     searchProduct: (name: string) => Promise<void>
+    filterProducts: ({ categories, sort }: { categories: string[]; sort: string }) => Promise<void>;
 }
 
 
@@ -21,6 +23,7 @@ const useProductsStore = create<ProductState> ((set, get) => ({
     products: [],
     selectedProduct: null,
     searchedProduct: [],
+    filteredProducts: [],
     loading: false,
     error: null,
 
@@ -127,7 +130,31 @@ const useProductsStore = create<ProductState> ((set, get) => ({
             const errorMessage = (error as Error).message
             set({error: errorMessage, loading: false})
         }
+    },
+    filterProducts: async ({ categories, sort }: { categories: string[]; sort: string }) => {
+        console.log(categories)
+        set({ loading: true, error: null });
+      
+        try {
+          // Query string para el filtro
+          const sortParam = sort ? `&sort=${sort}` : "";
+          //transformamos el array de categorias =['ejemplo', 'ejemplooo'] a 'ejemplo, ejemplooo'
+          const categoryParam = categories.length > 0 ? `&categories=${categories.join(",")}` : "";
+      
+          const response = await fetch(
+            `${import.meta.env.VITE_MOBILE_BACKEND_URL}products/filtered?${sortParam}${categoryParam}`
+          );
+          if (!response.ok) throw new Error("Network response was not ok");
+      
+          const filteredProducts = await response.json();
+          console.log(filteredProducts)
+          set({ filteredProducts, loading: false, error: null });
+        } catch (error) {
+          const errorMessage = (error as Error).message;
+          set({ error: errorMessage, loading: false });
+        }
     }
+      
 }))
 
 export default useProductsStore
