@@ -97,8 +97,9 @@ const DashboardProducts = () => {
     if(search) searchProduct(search)
     else filterProducts({categories, sort})
 
-  }, [searchParams])
+  }, [searchParams, filterProducts, searchProduct])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateFilters = (newFilter: Record<string, any>) => {
     const params: Record<string, string | string[]> = {}
     if (newFilter.categories?.length) params.categories = newFilter.categories
@@ -336,7 +337,7 @@ console.log(filteredProducts);
                 d="M12 6v6m0 0v6m0-6h6m-6 0H6"
               />
             </svg>
-            Agregar producto
+            Agregar producto +
           </button>
         </div>
 
@@ -482,7 +483,7 @@ console.log(filteredProducts);
                             product.stock
                               ? "text-green-700 bg-green-100"
                               : "text-red-500 bg-red-100"
-                          }`}
+                            }`}
                         >
                           {product.stock}
                         </span>

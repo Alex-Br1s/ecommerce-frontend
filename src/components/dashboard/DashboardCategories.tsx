@@ -16,8 +16,8 @@ function DashboardCategories() {
   useEffect(() => {
     getAllCategories()
   }, [getAllCategories])
-  console.log(loading)
-  console.log(error)
+  console.log('cargando categorias', loading)
+  console.log('error al obtener las categorias', error)
 
   const [categoryDialogAdd, setCategoryDialogAdd] = useState(false)
   const [categoryDialogUpdate, setCategoryDialogUpdate] = useState(false)
