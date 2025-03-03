@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import useProductsStore from "../../store/useProductsStore";
+import useProductsStore from "../../../store/useProductsStore";
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
 import { IoIosSearch } from "react-icons/io";
 import { GrView } from "react-icons/gr";
-import { NewProduct, Product } from "../../types";
-import useCategoryState from "../../store/useCategoriesStore";
-import AddProduct from "../dialog/modalProducts/AddProduct";
-import UpdateProduct from "../dialog/modalProducts/UpdateProduct";
-import DetailProduct from "../dialog/modalProducts/DetailProduct";
-import DeleteProduct from "../dialog/modalProducts/DeleteProduct";
-import SkeletonTable from "../../ui/SkeletonTable";
+import { NewProduct, Product } from "../../../types";
+import useCategoryState from "../../../store/useCategoriesStore";
+import AddProduct from "../../../components/dialog/modalProducts/AddProduct";
+import UpdateProduct from "../../../components/dialog/modalProducts/UpdateProduct";
+import DetailProduct from "../../../components/dialog/modalProducts/DetailProduct";
+import DeleteProduct from "../../../components/dialog/modalProducts/DeleteProduct";
+import SkeletonTable from "../../../ui/SkeletonTable";
 import { useSearchParams } from "react-router-dom";
 
 const DashboardProducts = () => {

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import useUsersStore from '../../store/useUsersStore'
+import useUsersStore from '../../../store/useUsersStore'
 import { TbEdit } from 'react-icons/tb'
 import { MdDelete } from 'react-icons/md'
 

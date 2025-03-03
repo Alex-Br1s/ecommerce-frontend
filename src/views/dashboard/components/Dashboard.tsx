@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom"
 import DashboardSidebar from "./DashboardSidebar"
-import DashboardUsers from "./DashboardUsers"
-import DashboardProducts from "./DashboardProducts"
-import DashboardCategories from "./DashboardCategories"
-import useDarkModeStore from "../../store/useDarkModeStore"
+import DashboardUsers from "../DashboardUsers/DashboardUsers"
+import DashboardProducts from "../DashboardProducts/components/DashboardProducts"
+import DashboardCategories from "../DashboardCategories/DashboardCategories"
+import useDarkModeStore from "../../../store/useDarkModeStore"
 import { MdWbSunny } from "react-icons/md";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 

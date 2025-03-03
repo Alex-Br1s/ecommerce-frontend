@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import useCategoryStore from '../../store/useCategoriesStore'
+import useCategoryStore from '../../../store/useCategoriesStore'
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
-import '../../stylesheet/generalStyles.css'
-import { Category } from '../../types';
-import AddCategoryModal from '../dialog/modalCategories/AddCategory';
-import UpdateCategory from '../dialog/modalCategories/UpdateCategory';
-import DeleteCategory from '../dialog/modalCategories/DeleteCategory';
+import '../../../stylesheet/generalStyles.css'
+import { Category } from '../../../types';
+import AddCategoryModal from '../../../components/dialog/modalCategories/AddCategory';
+import UpdateCategory from '../../../components/dialog/modalCategories/UpdateCategory';
+import DeleteCategory from '../../../components/dialog/modalCategories/DeleteCategory';
 
 
 function DashboardCategories() {
