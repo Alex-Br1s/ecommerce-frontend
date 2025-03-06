@@ -21,7 +21,6 @@ const MultiSelect = ({ label, options, selectedValues, onChange, placeholder = "
   return (
     <section className="w-full">
       <div className="flex flex-col w-full">
-        
         <p className="text-gray-600 dark:text-[#bbb] font-normal">{label}: </p>
         <select
           value={selectedValues}

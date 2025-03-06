@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom"
 import DashboardSidebar from "./DashboardSidebar"
-import DashboardUsers from "../DashboardUsers/DashboardUsers"
-import DashboardProducts from "../DashboardProducts/components/DashboardProducts"
+import DashboardProductScreen from "../screens/DashboardProductScreen"
 import DashboardCategories from "../DashboardCategories/DashboardCategories"
+import DashboardUsers from "../DashboardUsers/DashboardUsers"
 import useDarkModeStore from "../../../store/useDarkModeStore"
 import { MdWbSunny } from "react-icons/md";
 import { BsFillMoonStarsFill } from "react-icons/bs";
@@ -20,7 +20,7 @@ const Dashboard = () => {
       <button className="text-2xl" onClick={setMode}>{isDark ? <MdWbSunny className="text-yellow-500" /> : <BsFillMoonStarsFill className="text-sky-900"/>}</button>
         <Routes>
           <Route path='users' element={<DashboardUsers />} />
-          <Route path='products' element={<DashboardProducts />} />
+          <Route path='products' element={<DashboardProductScreen />} />
           <Route path='categories' element={<DashboardCategories />} />
         </Routes>
       </div>

@@ -9,7 +9,7 @@ interface SelectProps {
 const Select = ({placeHolder, options, onChange}: SelectProps) => {
   return (
     <section>
-      <div className="bg-[#eee] dark:bg-[#1f1f1f] min-w-44 flex items-center gap-x-2 px-3 h-10 rounded-md shadow-md dark:shadow-[#666] dark:shadow-md">
+      <div className="bg-[#eee] dark:bg-[#1f1f1f] min-w-44 flex items-center gap-x-2 px-3 h-10 rounded-md shadow-md dark:shadow-[#1a1a1a]">
         <p className="text-gray-600 dark:text-[#bbb] font-normal">
           {placeHolder}:{" "}
         </p>

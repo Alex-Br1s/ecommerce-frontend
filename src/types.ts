@@ -13,7 +13,7 @@ export interface User {
 export interface Category {
     id: number
     categoryName: string
-    description: string
+    description?: string
 }
 
 export interface Product {
