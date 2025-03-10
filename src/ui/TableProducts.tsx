@@ -3,9 +3,9 @@ import TableRow from "./TableRow";
 
 interface TableProductsProps {
   products: Product[];
-  onView: (id: number) => void;
-  onEdit: (id: number) => void;
-  onDelete: (id: number) => void;
+  onView: (selectedProduct: Product) => void;
+  onEdit: (selectedProduct: Product) => void;
+  onDelete: (selectedProduct: Product) => void;
 }
 
 const TableProducts = ({ products, onView, onEdit, onDelete }: TableProductsProps) => {

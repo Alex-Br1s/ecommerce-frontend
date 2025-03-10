@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Product } from "../../../../types";
 import TableProducts from "../../../../ui/TableProducts";
 import ProductsActions from "./ProductsActions";
+import ProductsModal from "../../../../ui/Dialogs/ProductsModal";
 
 const products = [
   {
@@ -16,7 +17,7 @@ const products = [
       "https://example.com/nike-air-max-270.jpg",
       "https://example.com/nike-air-max-270-2.jpg",
     ],
-    categories: [{id: 1, categoryName: "zapatillas" }],
+    categories: [{ id: 1, categoryName: "zapatillas" }],
   },
   {
     id: 2,
@@ -30,7 +31,7 @@ const products = [
       "https://example.com/adidas-ultraboost-21.jpg",
       "https://example.com/adidas-ultraboost-21-2.jpg",
     ],
-    categories: [{id: 2, categoryName: "zapatillas" }],
+    categories: [{ id: 2, categoryName: "zapatillas" }],
   },
   {
     id: 3,
@@ -44,7 +45,7 @@ const products = [
       "https://example.com/puma-rs-x.jpg",
       "https://example.com/puma-rs-x-2.jpg",
     ],
-    categories: [{id: 3, categoryName: "zapatillas" }],
+    categories: [{ id: 3, categoryName: "zapatillas" }],
   },
   {
     id: 4,
@@ -58,7 +59,7 @@ const products = [
       "https://example.com/new-balance-574.jpg",
       "https://example.com/new-balance-574-2.jpg",
     ],
-    categories: [{id: 4, categoryName: "zapatillas" }],
+    categories: [{ id: 4, categoryName: "zapatillas" }],
   },
   {
     id: 5,
@@ -72,35 +73,38 @@ const products = [
       "https://example.com/reebok-classic-leather.jpg",
       "https://example.com/reebok-classic-leather-2.jpg",
     ],
-    categories: [{id: 5, categoryName: "zapatillas" }],
+    categories: [{ id: 5, categoryName: "zapatillas" }],
   },
 ];
 
 const DashboardProducts = () => {
-
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [modalType, setModalType] = useState<"view" | "edit" | "delete" | null>(null);
 
-  const handleOpenModal = (type: "view" | "edit" | "delete", id: number) => {
-    console.log('Producto a mostrar, editar o eliminar: ', id);
+  const handleOpenModal = (type: "view" | "edit" | "delete", product: Product) => {
+    setSelectedProduct(product);
     setModalType(type);
   };
+  
+  console.log(`Producto a ${modalType}: `, selectedProduct);
 
   const handleCloseModal = () => {
     setSelectedProduct(null);
     setModalType(null);
   };
 
-  const handleView = (id: number) => {
-    console.log("Ver detalles de producto con ID: ", id);
+ /*  const handleView = (id: number) => {
+    console.log("Ver detalles de producto con ID:", id);
   };
 
   const handleEdit = (id: number) => {
-    console.log("Editar producto: ", id);
-  };
+    console.log("Editar producto:", id);
+  }; */
 
-  const handleDelete = (id: number) => {
-    console.log("Eliminar producto con ID:", id);
+  const handleDelete = () => {
+    console.log("Eliminar producto con ID:", selectedProduct?.id);
+
+    //Llamada al endpoint que elimina el producto
   };
 
   return (
@@ -108,9 +112,15 @@ const DashboardProducts = () => {
       <ProductsActions />
       <TableProducts
         products={products}
-        onView={(id) => handleOpenModal("view", id)}
-        onEdit={(id) => handleOpenModal("edit", id)}
-        onDelete={(id) => handleOpenModal("delete", id)}
+        onView={(selectedProduct) => handleOpenModal("view", selectedProduct)}
+        onEdit={(selectedProduct) => handleOpenModal("edit", selectedProduct)}
+        onDelete={(selectedProduct) => handleOpenModal("delete", selectedProduct)}
+      />
+      <ProductsModal
+        modalType={modalType}
+        onClose={handleCloseModal}
+        product={selectedProduct}
+        handleDelete={handleDelete}
       />
     </section>
   );
