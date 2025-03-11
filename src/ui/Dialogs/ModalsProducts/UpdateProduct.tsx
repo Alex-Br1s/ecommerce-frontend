@@ -2,9 +2,7 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import { NewProduct, Category } from "../../../types";
 
 interface UpdateProductInterface {
-  handleChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleCategoryChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   productData: NewProduct;
   categories: Category[];
