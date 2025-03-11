@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Product } from "../../../../types";
+import { NewProduct, Product } from "../../../../types";
 import TableProducts from "../../../../ui/TableProducts";
 import ProductsActions from "./ProductsActions";
 import ProductsModal from "../../../../ui/Dialogs/ProductsModal";
@@ -78,14 +78,31 @@ const products = [
 ];
 
 const DashboardProducts = () => {
+  const initialProductData: NewProduct = {
+    name: "",
+    price: 0,
+    description: "",
+    stock: 0,
+    images: [],
+    offer: false,
+    salePrice: null,
+    categoryId: [],
+  };
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [modalType, setModalType] = useState<"view" | "edit" | "delete" | null>(null);
+  const [modalType, setModalType] = useState<"view" | "edit" | "delete" | null>(
+    null
+  );
+  const [productEditing, setProductEditing] =
+    useState<NewProduct>(initialProductData);
 
-  const handleOpenModal = (type: "view" | "edit" | "delete", product: Product) => {
+  const handleOpenModal = (
+    type: "view" | "edit" | "delete",
+    product: Product
+  ) => {
     setSelectedProduct(product);
     setModalType(type);
   };
-  
+
   console.log(`Producto a ${modalType}: `, selectedProduct);
 
   const handleCloseModal = () => {
@@ -93,13 +110,28 @@ const DashboardProducts = () => {
     setModalType(null);
   };
 
- /*  const handleView = (id: number) => {
-    console.log("Ver detalles de producto con ID:", id);
+  const handleProductEditing = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    console.log("Editar producto:", e.target.value);
+    const { id, value, type } = e.target;
+    const valueParsed = type === "number" ? parseFloat(value) : value;
+
+    if (type === "checkbox") {
+      const { checked } = e.target as HTMLInputElement;
+      setProductEditing((prevState) => ({
+        ...prevState,
+        [id]: checked,
+      }));
+    } else {
+      setProductEditing((prevState) => ({
+        ...prevState,
+        [id]: valueParsed,
+      }));
+    }
   };
 
-  const handleEdit = (id: number) => {
-    console.log("Editar producto:", id);
-  }; */
+  console.log(productEditing);
 
   const handleDelete = () => {
     console.log("Eliminar producto con ID:", selectedProduct?.id);
@@ -114,7 +146,9 @@ const DashboardProducts = () => {
         products={products}
         onView={(selectedProduct) => handleOpenModal("view", selectedProduct)}
         onEdit={(selectedProduct) => handleOpenModal("edit", selectedProduct)}
-        onDelete={(selectedProduct) => handleOpenModal("delete", selectedProduct)}
+        onDelete={(selectedProduct) =>
+          handleOpenModal("delete", selectedProduct)
+        }
       />
       <ProductsModal
         modalType={modalType}

@@ -27,13 +27,6 @@ export interface Product {
     images: string[]
     categories: Category[]
 }
-export interface NewProduct {
-    name: string
-    price: number
-    offer: boolean
-    salePrice?: number | null
-    stock: number
-    description?: string
-    images: string[],
+export interface NewProduct extends Omit<Product, 'id' | 'categories'> {
     categoryId: number[]
 }
