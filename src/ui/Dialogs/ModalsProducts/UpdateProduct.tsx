@@ -3,24 +3,24 @@ import { NewProduct, Category } from "../../../types";
 
 interface UpdateProductInterface {
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  handleCategoryChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  productData: NewProduct;
-  categories: Category[];
-  openCloudinaryWidget: () => void;
-  removeImage: (index: number) => void;
+  //handleCategoryChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  product: NewProduct;
+  //categories: Category[];
+  //openCloudinaryWidget: () => void;
+  //removeImage: (index: number) => void;
   onClose: () => void;
-  updateProduct: () => void;
+  //updateProduct: () => void;
 }
 
 const UpdateProduct = ({
   handleChange,
-  handleCategoryChange,
-  productData,
-  categories,
-  openCloudinaryWidget,
-  removeImage,
+  //handleCategoryChange,
+  product,
+  //categories,
+  //openCloudinaryWidget,
+  //removeImage,
   onClose,
-  updateProduct,
+  //updateProduct,
 }: UpdateProductInterface) => {
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
@@ -33,7 +33,7 @@ const UpdateProduct = ({
             </label>
             <input
               onChange={handleChange}
-              value={productData.name}
+              value={product.name}
               className="h-9 px-2 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400"
               id="name"
               placeholder="Nombre del producto"
@@ -44,7 +44,7 @@ const UpdateProduct = ({
             </label>
             <input
               onChange={handleChange}
-              value={productData.price}
+              value={product.price}
               className="h-9 px-2 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400"
               min={1}
               type="number"
@@ -55,7 +55,7 @@ const UpdateProduct = ({
             <div className="flex items-center gap-x-2 my-2">
               <input
                 onChange={handleChange}
-                checked={productData.offer}
+                checked={product.offer}
                 className="h-4 w-4"
                 id="offer"
                 type="checkbox"
@@ -65,7 +65,7 @@ const UpdateProduct = ({
               </label>
               {/* El salePrice solo se aparecera si offer (oferta) es true */}
             </div>
-            {productData.offer && (
+            {product.offer && (
               <div className="flex flex-col">
                 <label className="text-sm font-medium" htmlFor="salePrice">
                   Precio de oferta
@@ -73,7 +73,7 @@ const UpdateProduct = ({
                 <input
                   onChange={handleChange}
                   value={
-                    productData.salePrice !== null ? productData.salePrice : ""
+                    product.salePrice !== null ? product.salePrice : ""
                   }
                   className="h-9 px-2 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400"
                   min={1}
@@ -88,7 +88,7 @@ const UpdateProduct = ({
             </label>
             <textarea
               onChange={handleChange}
-              value={productData.description}
+              value={product.description}
               max-rows={1}
               className="h-11 max-h-16 px-2 pt-1 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400"
               id="description"
@@ -100,7 +100,7 @@ const UpdateProduct = ({
             </label>
             <input
               onChange={handleChange}
-              value={productData.stock}
+              value={product.stock}
               className="h-9 px-2 text-sm text-gray-700 dark:text-gray-200 rounded-md border-b-2 bg-[#eee] dark:bg-[#2f2f2f] border-gray-400"
               min={1}
               type="number"
@@ -108,7 +108,7 @@ const UpdateProduct = ({
               placeholder="1"
             />
 
-            {categories.length > 0 && (
+            {/* {categories.length > 0 && (
               <div>
                 <label
                   htmlFor="categories"
@@ -139,7 +139,7 @@ const UpdateProduct = ({
                   seleccionar múltiples categorías
                 </p>
               </div>
-            )}
+            )} */}
 
             <label
               className="text-sm font-medium text-gray-500 mt-1"
@@ -147,20 +147,20 @@ const UpdateProduct = ({
             >
               Imagenes del producto (max 3)
             </label>
-            {productData.images.length >= 3 ? (
+            {product.images.length >= 3 ? (
               ""
             ) : (
               <button
-                onClick={openCloudinaryWidget}
+               /*  onClick={openCloudinaryWidget} */
                 className="px-4 py-2 text-gray-700 font-medium dark:text-gray-200 bg-[#eee] dark:bg-[#2f2f2f] rounded-md text-sm border-b-2 border-gray-400"
               >
                 Elegir imagenes
               </button>
             )}
 
-            {productData.images.length > 0 && (
+            {product.images.length > 0 && (
               <div className="flex gap-x-2">
-                {productData.images.map((prevImage, index) => (
+                {product.images.map((prevImage, index) => (
                   <div key={index} className="flex">
                     <div className="relative flex">
                       <img
@@ -170,7 +170,7 @@ const UpdateProduct = ({
                       />
                       <div className="absolute right-0 p-0.5 pr-1 mr-1.5 mt-1 bg-gray-200 rounded-md">
                         <FaDeleteLeft
-                          onClick={() => removeImage(index)}
+                         /*  onClick={() => removeImage(index)} */
                           className="text-xl cursor-pointer text-gray-900"
                         />
                       </div>
@@ -188,7 +188,7 @@ const UpdateProduct = ({
               Cancelar
             </button>
             <button
-              onClick={updateProduct}
+             /*  onClick={updateProduct} */
               className="px-4 py-2 border border-transparent rounded-md text-white bg-blue-600 hover:bg-blue-700"
             >
               Actualizar producto

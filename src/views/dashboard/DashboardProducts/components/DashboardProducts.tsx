@@ -89,16 +89,11 @@ const DashboardProducts = () => {
     categoryId: [],
   };
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [modalType, setModalType] = useState<"view" | "edit" | "delete" | null>(
-    null
-  );
-  const [productEditing, setProductEditing] =
-    useState<NewProduct>(initialProductData);
+  const [modalType, setModalType] = useState<"view" | "edit" | "delete" | null>(null);
+  const [productEditing, setProductEditing] = useState<NewProduct>(initialProductData);
+  //const [productToEdit, setProductToEdit] = useState<NewProduct | null>(null);
 
-  const handleOpenModal = (
-    type: "view" | "edit" | "delete",
-    product: Product
-  ) => {
+  const handleOpenModal = (type: "view" | "edit" | "delete", product: Product) => {
     setSelectedProduct(product);
     setModalType(type);
   };
@@ -110,24 +105,22 @@ const DashboardProducts = () => {
     setModalType(null);
   };
 
-  const handleProductEditing = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleProductEditing = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     console.log("Editar producto:", e.target.value);
-    const { id, value, type } = e.target;
-    const valueParsed = type === "number" ? parseFloat(value) : value;
-
-    if (type === "checkbox") {
-      const { checked } = e.target as HTMLInputElement;
+    const { id, value, type } = e.target
+    const valueParsed = type === "number" ? parseFloat(value) : value
+    
+    if (type === 'checkbox') {
+      const {checked} = e.target as HTMLInputElement
       setProductEditing((prevState) => ({
         ...prevState,
-        [id]: checked,
-      }));
+        [id]: checked
+      }))
     } else {
       setProductEditing((prevState) => ({
         ...prevState,
-        [id]: valueParsed,
-      }));
+        [id]: valueParsed
+      }))
     }
   };
 
@@ -146,14 +139,13 @@ const DashboardProducts = () => {
         products={products}
         onView={(selectedProduct) => handleOpenModal("view", selectedProduct)}
         onEdit={(selectedProduct) => handleOpenModal("edit", selectedProduct)}
-        onDelete={(selectedProduct) =>
-          handleOpenModal("delete", selectedProduct)
-        }
+        onDelete={(selectedProduct) => handleOpenModal("delete", selectedProduct)}
       />
       <ProductsModal
         modalType={modalType}
         onClose={handleCloseModal}
         product={selectedProduct}
+        productToEdit={productEditing}
         handleDelete={handleDelete}
       />
     </section>
