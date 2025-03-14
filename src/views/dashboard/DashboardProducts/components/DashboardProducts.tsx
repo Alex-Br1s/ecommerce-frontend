@@ -91,7 +91,7 @@ const DashboardProducts = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [modalType, setModalType] = useState<"view" | "edit" | "delete" | null>(null);
   const [productEditing, setProductEditing] = useState<NewProduct>(initialProductData);
-  //const [productToEdit, setProductToEdit] = useState<NewProduct | null>(null);
+  const [productToEdit, setProductToEdit] = useState<NewProduct | null>(null);
 
   const handleOpenModal = (type: "view" | "edit" | "delete", product: Product) => {
     setSelectedProduct(product);
